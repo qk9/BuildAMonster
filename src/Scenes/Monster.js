@@ -29,6 +29,10 @@ class Monster extends Phaser.Scene {
         this.antenna3OffsetY = -45;
 
         // create keyboard bindings
+        this.aKey = null;
+        this.dKey = null;
+        this.sKey = null;
+        this.fKey = null;
     }
 
     // Use preload to load art and sound assets before the scene starts running.
@@ -69,12 +73,39 @@ class Monster extends Phaser.Scene {
         my.sprite.antenna1 = this.add.sprite(this.bodyX + this.antenna1OffsetX, this.bodyY + this.antenna1OffsetY, "monsterParts", "detail_white_antenna_small.png");
         my.sprite.antenna2 = this.add.sprite(this.bodyX + this.antenna2OffsetX, this.bodyY + this.antenna2OffsetY, "monsterParts", "detail_white_antenna_small.png");
         my.sprite.antenna3 = this.add.sprite(this.bodyX + this.antenna3OffsetX, this.bodyY + this.antenna3OffsetY, "monsterParts", "detail_white_antenna_small.png");
+
+        this.aKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        this.dKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        this.sKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        this.fKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
     }
 
     update() {
         let my = this.my;    // create an alias to this.my for readability
 
-       
+        // expression changes
+        if(Phaser.Input.Keyboard.JustDown(this.sKey)) {
+            my.sprite.mouthSmile.visible = true;
+            my.sprite.mouthFangs.visible = false;
+        }
+
+        if(Phaser.Input.Keyboard.JustDown(this.fKey)) {
+            my.sprite.mouthSmile.visible = false;
+            my.sprite.mouthFangs.visible = true;
+        }
+
+        // movement
+        if (this.aKey.isDown) {
+            for (let obj in my.sprite) {
+                my.sprite[obj].x -= 3;
+            }
+        }
+
+        if (this.dKey.isDown) {
+            for (let obj in my.sprite) {
+                my.sprite[obj].x += 3;
+            }
+        }
     }
 
 }
